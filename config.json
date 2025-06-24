@@ -120,6 +120,26 @@
   "xinlang": {
     "api": "https://xinlangzy.com/api.php/provide/vod/",
     "name": "新浪资源"
+  },
+  "fanjia": {
+    "api": "http://api.fqzy.cc/api.php/provide/vod/",
+    "name": "番茄资源",
+    "note": "专注于提供多样化的影视内容"
+  },
+  "baiduzy": {
+    "api": "https://api.apibdzy.com/api.php/provide/vod/",
+    "name": "百度云资源",
+    "note": "一个常见的资源站选择"
+  },
+  "ukuzy": {
+    "api": "https://api.ukuapi.com/api.php/provide/vod/",
+    "name": "U酷资源",
+    "note": "据称是百度云资源的子站，采用商业CDN，速度较快"
+  },
+  "yingshi": {
+    "api": "https://www.yingshi.tv/api.php/provide/vod/",
+    "name": "YS资源",
+    "note": "一个较为全面的资源接口"
   }
   }
 }

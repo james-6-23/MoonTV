@@ -34,23 +34,13 @@ import {
   toggleFavorite,
 } from '@/lib/db.client';
 import { type VideoDetail, fetchVideoDetail } from '@/lib/fetchVideoDetail';
+import { SearchResult } from '@/lib/types';
 
 // 扩展 HTMLVideoElement 类型以支持 hls 属性
 declare global {
   interface HTMLVideoElement {
     hls?: any;
   }
-}
-
-// 搜索结果类型
-interface SearchResult {
-  id: string;
-  title: string;
-  poster: string;
-  episodes: string[];
-  source: string;
-  source_name: string;
-  year: string;
 }
 
 function PlayPageClient() {
@@ -1124,15 +1114,27 @@ function PlayPageClient() {
             )}
           </div>
 
-          {/* 数据源徽章放置在右侧，不影响标题居中 */}
-          {sourceName && (
-            <span
-              className='absolute right-2 sm:right-6 text-gray-300 text-sm border border-gray-500/60 px-2 py-[1px] rounded cursor-pointer hover:bg-gray-600/30 transition-colors'
-              onClick={onOpenSourcePanel}
-            >
-              {sourceName}
-            </span>
-          )}
+          <div className='absolute right-2 sm:right-6 flex flex-row items-center space-x-1'>
+            {totalEpisodes > 1 && (
+              <div
+                className='vds-button text-sm'
+                onClick={() => {
+                  setShowEpisodePanel(true);
+                  playerContainerRef.current?.focus();
+                }}
+              >
+                选集
+              </div>
+            )}
+            {sourceName && (
+              <span
+                className='text-gray-300 text-sm border border-gray-500/60 px-2 py-[1px] rounded cursor-pointer hover:bg-gray-600/30 transition-colors'
+                onClick={onOpenSourcePanel}
+              >
+                {sourceName}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -1380,7 +1382,6 @@ function PlayPageClient() {
               ) : null,
             beforeFullscreenButton: (
               <>
-                <PlaybackRateButton playerRef={playerRef} />
                 <button
                   className='vds-button'
                   aria-label={blockAdEnabled ? '关闭去广告' : '开启去广告'}
@@ -1397,6 +1398,7 @@ function PlayPageClient() {
                 >
                   <AdBlockIcon enabled={blockAdEnabled} />
                 </button>
+                <PlaybackRateButton playerRef={playerRef} />
                 {/* 自定义 AirPlay 按钮 */}
                 <AirPlayButton className='vds-button'>
                   <AirPlayIcon className='vds-icon' />
@@ -1756,7 +1758,7 @@ const PlaybackRateButton = ({
   };
 
   return (
-    <button className='vds-button mr-2' onClick={cycleRate}>
+    <button className='vds-button' onClick={cycleRate}>
       {rate === 1 ? '倍速' : `${rate.toFixed(2)}x`}
     </button>
   );

@@ -19,6 +19,7 @@ interface ApiSearchItem {
   vod_class?: string;
   vod_year?: string;
   vod_content?: string;
+  vod_douban_id?: number;
   type_name?: string;
 }
 
@@ -48,7 +49,6 @@ async function searchFromApi(
     }
 
     const data = await response.json();
-
     if (
       !data ||
       !data.list ||
@@ -83,7 +83,7 @@ async function searchFromApi(
 
       return {
         id: item.vod_id,
-        title: item.vod_name,
+        title: item.vod_name.trim().replace(/\s+/g, ' '),
         poster: item.vod_pic,
         episodes,
         source: apiSite.key,
@@ -92,6 +92,7 @@ async function searchFromApi(
         year: item.vod_year ? item.vod_year.match(/\d{4}/)?.[0] || '' : '',
         desc: cleanHtmlTags(item.vod_content || ''),
         type_name: item.type_name,
+        douban_id: item.vod_douban_id,
       };
     });
 
@@ -150,7 +151,7 @@ async function searchFromApi(
 
               return {
                 id: item.vod_id,
-                title: item.vod_name,
+                title: item.vod_name.trim().replace(/\s+/g, ' '),
                 poster: item.vod_pic,
                 episodes,
                 source: apiSite.key,
@@ -161,6 +162,7 @@ async function searchFromApi(
                   : '',
                 desc: cleanHtmlTags(item.vod_content || ''),
                 type_name: item.type_name,
+                douban_id: item.vod_douban_id,
               };
             });
           } catch (error) {
